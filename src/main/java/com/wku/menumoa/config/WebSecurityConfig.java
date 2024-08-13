@@ -2,6 +2,7 @@ package com.wku.menumoa.config;
 
 
 import com.wku.menumoa.service.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -31,19 +32,32 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
             http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/signup", "/user").permitAll()
-                        .anyRequest().authenticated()
+                    .authorizeHttpRequests(authorize -> authorize
+                            .requestMatchers("/login", "/signup").permitAll()
+                            .requestMatchers("userinfo").authenticated()
+                            .anyRequest().permitAll()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home")
+                    .formLogin(form -> form
+                            .loginPage("/login")
+                            .usernameParameter("email")
+                            .passwordParameter("password")
+                            .defaultSuccessUrl("/user")
+                            .failureUrl("/loginfail")
+                            .failureForwardUrl("/loginfail")
+
                 )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true)
+                    .exceptionHandling(exception -> exception
+                            .authenticationEntryPoint((request, response, authException) -> {
+                                response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+                                response.setContentType("application/json");
+                                response.getWriter().write("{ \"message\": \"로그인이 필요합니다.dssdas\" }");
+                            }))
+                    .logout(logout -> logout
+                            .logoutSuccessUrl("/login")
+                            .invalidateHttpSession(true)
                 )
-                .csrf(csrf -> csrf.disable());
+                    .csrf(csrf -> csrf.disable())
+                        .authenticationProvider(daoAuthenticationProvider());
 
         return http.build();
     }

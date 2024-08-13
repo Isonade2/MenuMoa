@@ -29,7 +29,7 @@ public class User implements UserDetails{
     private String role;
     private String category;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
 
     // 사용자의 id 반환
