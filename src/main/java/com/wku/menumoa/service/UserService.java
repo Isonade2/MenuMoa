@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+    private final EmailService emailService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Long save(UserRegisterRequest dto){
+
+
         User newUser = User.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
@@ -25,5 +28,9 @@ public class UserService {
         userRepository.save(newUser);
 
         return newUser.getId();
+    }
+
+    public boolean checkEmail(String email){
+        return userRepository.existsByEmail(email);
     }
 }

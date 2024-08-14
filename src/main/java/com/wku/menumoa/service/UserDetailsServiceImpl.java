@@ -1,5 +1,6 @@
 package com.wku.menumoa.service;
 
+import com.wku.menumoa.domain.User;
 import com.wku.menumoa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        if(user.getStatus().equals("ACTIVE")){
+            return user;
+        }
+
+        return user;
     }
 }

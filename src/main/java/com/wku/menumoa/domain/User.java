@@ -28,6 +28,7 @@ public class User implements UserDetails{
     private String nickname;
     private String role;
     private String category;
+    private String status;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
