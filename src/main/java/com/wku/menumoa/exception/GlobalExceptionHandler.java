@@ -14,4 +14,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDTO<?>> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntityBuilder.build(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseDTO<?>> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntityBuilder.build(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

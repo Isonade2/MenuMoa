@@ -33,6 +33,12 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
 
+
+    public void changeStatus(String status) {
+        this.status = status;
+    }
+
+
     // 사용자의 id 반환
     @Override
     public String getUsername() {

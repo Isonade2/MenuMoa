@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,7 +19,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 
 @RestController
@@ -28,11 +26,14 @@ import java.util.HashMap;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final EmailService emailService;
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseDTO<UserRegisterResponse>> signup(@Valid @RequestBody UserRegisterRequest userRegisterRequest){
 
-        Long save = userService.save(userRegisterRequest);
+        Long save = userService.join(userRegisterRequest);
+
+
 
         System.out.println("saveId: " + save);
         return ResponseEntityBuilder.build("회원가입 성공", HttpStatus.OK, null);
