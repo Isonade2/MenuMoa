@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                             .authenticationEntryPoint((request, response, authException) -> {
                                 response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
                                 response.setContentType("application/json");
-                                response.getWriter().write("{ \"message\": \"로그인이 필요합니다.dssdas\" }");
+                                response.getWriter().write("{ \"message\": \"로그인이 필요합니다.\" }");
                             }))
                     .logout(logout -> logout
                             .logoutSuccessUrl("/login")

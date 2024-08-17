@@ -21,9 +21,13 @@ public class Store {
 
     private String name;
     private String storePictureURL;
-    private String phoneNumber;
+    private String tel;
     private String content;
     private String category;
+    private String address;
+
+    @Builder.Default
+    private boolean isPosted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
