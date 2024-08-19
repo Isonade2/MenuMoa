@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Menu {
+public class Menu{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

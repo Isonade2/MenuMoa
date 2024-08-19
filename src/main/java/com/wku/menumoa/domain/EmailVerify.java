@@ -14,7 +14,7 @@ import java.lang.reflect.Member;
 @AllArgsConstructor
 @Builder
 @Getter
-public class EmailVerify {
+public class EmailVerify extends BaseTime{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

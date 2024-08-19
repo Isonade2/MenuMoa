@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 @Getter
 @Table(name = "`user`")
-public class User implements UserDetails{
+public class User extends BaseTime implements UserDetails{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

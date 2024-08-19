@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Store {
+public class Store extends BaseTime{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
