@@ -41,7 +41,7 @@ public class domainTest {
         Store store = Store.builder()
                 .id(1L)
                 .name("하나요리당고")
-                .phoneNumber("010-1234-5678")
+                .tel("010-1234-5678")
                 .content("하나요리당고입니다.")
                 .category("일식")
                 .user(user)

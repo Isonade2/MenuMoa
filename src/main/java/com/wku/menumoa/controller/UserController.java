@@ -41,6 +41,14 @@ public class UserController {
         return ResponseEntityBuilder.build("회원가입 성공", HttpStatus.OK, null);
     }
 
+    @GetMapping("/activation")
+    public String activation(@RequestParam(required = false) String code){
+        log.info("[activation code] : {}", code);
+        userService.activateUser(code);
+        return "redirect:/";
+
+    }
+
     @GetMapping("/checkEmail")
     public ResponseEntity<ResponseDTO<String>> checkEmail(@RequestParam(required = false) String email){
         log.info(email);
@@ -48,7 +56,7 @@ public class UserController {
         이메일 확인하는 정규식 넣기
          */
         if (email == null || email.isEmpty()){
-            return ResponseEntityBuilder.build("이메일을 입력해주세요.", HttpStatus.OK, null);
+            return ResponseEntityBuilder.build("이메일을 입력해주세요.", HttpStatus.BAD_REQUEST, null);
         }
         if (!userService.checkEmail(email)){
             return ResponseEntityBuilder.build("사용 가능한 이메일입니다.", HttpStatus.OK, "Y");
@@ -56,35 +64,6 @@ public class UserController {
         else{
             return ResponseEntityBuilder.build("이미 사용중인 이메일입니다.", HttpStatus.OK, "N");
         }
-    }
-
-    @GetMapping()
-    public ResponseEntity<?> user(HttpServletRequest request){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("check");
-
-        if (authentication != null && !authentication.getPrincipal().equals("anonymousUser")){
-            User userDetails = (User) authentication.getPrincipal();
-            var userData = new HashMap<>();
-            userData.put("id", userDetails.getId());
-            userData.put("email", userDetails.getEmail());
-            userData.put("name", userDetails.getNickname());
-            return ResponseEntityBuilder.build("로그인 완료", HttpStatus.OK, userData);
-        }
-        else{
-            return ResponseEntityBuilder.build("로그인되어있지 않습니다.", HttpStatus.NOT_ACCEPTABLE, null);
-        }
-    }
-
-    @GetMapping("/userinfo")
-    public ResponseEntity<?> currentUserName(@AuthenticationPrincipal User principal){
-        String username = principal.getUsername();
-        return ResponseEntityBuilder.build("로그인 완료", HttpStatus.OK, username);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<?> test(@AuthenticationPrincipal User user){
-        return ResponseEntityBuilder.build("테스트 성공", HttpStatus.OK, user);
     }
 
     @PostMapping("/loginfail")
@@ -103,4 +82,9 @@ public class UserController {
 //        }
 //    }
 
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test(@AuthenticationPrincipal User user){
+        return ResponseEntityBuilder.build("테스트 성공", HttpStatus.OK, user);
+    }
 }

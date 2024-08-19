@@ -34,7 +34,7 @@ public class WebSecurityConfig {
             http
                     .authorizeHttpRequests(authorize -> authorize
                             //로그인 필요한 엔드포인트
-                            .requestMatchers("").authenticated()
+                            .requestMatchers("/menu").authenticated()
 
                             //로그인 필요없는 엔드포인트
                             .requestMatchers("/login","/user/*").permitAll()

@@ -23,9 +23,13 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Long join(UserRegisterRequest dto){
-        /*
-        중복체크 필요
-         */
+
+        if (checkEmail(dto.getEmail())){
+            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+        }
+
+
+
         User newUser = User.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))

@@ -25,6 +25,7 @@ public class Store extends BaseTime{
     private String content;
     private String category;
     private String address;
+    private String pictureURL;
 
     @Builder.Default
     private boolean isPosted = false;

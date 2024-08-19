@@ -21,11 +21,5 @@ public class EmailController {
     }
 
 
-    @GetMapping("/user/activation")
-    public String activation(@RequestParam(required = false) String code){
-        log.info("[activation code] : {}", code);
-        userService.activateUser(code);
-        return "redirect:http://namoo.store";
 
-    }
 }
