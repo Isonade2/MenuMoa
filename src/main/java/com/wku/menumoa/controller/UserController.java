@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -56,7 +58,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user")
+    @GetMapping()
     public ResponseEntity<?> user(HttpServletRequest request){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("check");
@@ -80,8 +82,25 @@ public class UserController {
         return ResponseEntityBuilder.build("로그인 완료", HttpStatus.OK, username);
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<?> test(@AuthenticationPrincipal User user){
+        return ResponseEntityBuilder.build("테스트 성공", HttpStatus.OK, user);
+    }
+
     @PostMapping("/loginfail")
     public ResponseEntity<?> fail(){
         return ResponseEntityBuilder.build("아이디 또는 비밀번호가 맞지 않습니다.", HttpStatus.UNAUTHORIZED, null);
     }
+
+//    @PostMapping("/findPassword")
+//    public ResponseEntity<?> resetPassword(@RequestParam String email){
+//        if (userService.checkEmail(email)){
+//            emailService.sendPasswordResetMail(email);
+//            return ResponseEntityBuilder.build("비밀번호 재설정 메일을 보냈습니다.", HttpStatus.OK, null);
+//        }
+//        else{
+//            return ResponseEntityBuilder.build("가입되지 않은 이메일입니다.", HttpStatus.OK, null);
+//        }
+//    }
+
 }

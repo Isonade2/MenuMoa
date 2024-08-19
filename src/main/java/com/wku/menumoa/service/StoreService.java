@@ -3,7 +3,7 @@ package com.wku.menumoa.service;
 
 import com.wku.menumoa.domain.Store;
 import com.wku.menumoa.domain.User;
-import com.wku.menumoa.dto.store.AddStoreRequest;
+import com.wku.menumoa.dto.store.CreateStoreRequest;
 import com.wku.menumoa.repository.StoreRepository;
 import com.wku.menumoa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class StoreService {
     private final UserRepository userRepository;
 
 
-    public void createStore(AddStoreRequest dto, Long userId){
+    public void createStore(CreateStoreRequest dto, Long userId){
         log.info("[StoreService][AddStoreRequest] = " + dto.toString());
 
         User user = userRepository.findById(userId)

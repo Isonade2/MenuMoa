@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddStoreRequest {
+public class CreateStoreRequest {
     private String name;
     private String address;
     private String tel;

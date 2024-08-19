@@ -2,7 +2,7 @@ package com.wku.menumoa.controller;
 
 import com.wku.menumoa.domain.User;
 import com.wku.menumoa.dto.ResponseEntityBuilder;
-import com.wku.menumoa.dto.store.AddStoreRequest;
+import com.wku.menumoa.dto.store.CreateStoreRequest;
 import com.wku.menumoa.repository.StoreRepository;
 import com.wku.menumoa.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping
-    public ResponseEntity<?> createStore(@RequestBody AddStoreRequest dto, @AuthenticationPrincipal User user){
+    public ResponseEntity<?> createStore(@RequestBody CreateStoreRequest dto, @AuthenticationPrincipal User user){
         log.info("[AddStoreRequest] = " + dto.toString());
         log.info("[User] = " + user.toString());
         log.info("[UserId] = " + user.getId());

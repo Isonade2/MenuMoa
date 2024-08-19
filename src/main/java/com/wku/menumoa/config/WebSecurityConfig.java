@@ -33,8 +33,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
             http
                     .authorizeHttpRequests(authorize -> authorize
-                            .requestMatchers("/login", "/signup").permitAll()
-                            .requestMatchers("userinfo").authenticated()
+                            //로그인 필요한 엔드포인트
+                            .requestMatchers("").authenticated()
+
+                            //로그인 필요없는 엔드포인트
+                            .requestMatchers("/login","/user/*").permitAll()
                             .anyRequest().permitAll()
                 )
                     .formLogin(form -> form
@@ -42,15 +45,16 @@ public class WebSecurityConfig {
                             .usernameParameter("email")
                             .passwordParameter("password")
                             .defaultSuccessUrl("/user")
-                            .failureUrl("/loginfail")
-                            .failureForwardUrl("/loginfail")
+                            .failureUrl("/user/loginfail")
+                            .failureForwardUrl("/user/loginfail")
 
                 )
                     .exceptionHandling(exception -> exception
                             .authenticationEntryPoint((request, response, authException) -> {
-                                response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 403 Forbidden
                                 response.setContentType("application/json");
-                                response.getWriter().write("{ \"message\": \"로그인이 필요합니다.\" }");
+                                response.setCharacterEncoding("UTF-8");
+                                response.getWriter().write("{ \"message\": \"로그인이 필요합니다.(Require Login.)\" }");
                             }))
                     .logout(logout -> logout
                             .logoutSuccessUrl("/login")
