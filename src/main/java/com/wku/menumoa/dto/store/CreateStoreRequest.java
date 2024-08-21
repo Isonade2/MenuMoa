@@ -23,5 +23,9 @@ public class CreateStoreRequest {
     @NotBlank(message = "가게 카테고리를 입력해주세요.")
     private String category;
 
+    //초기값은 null
+    @Builder.Default
+    private String pictureURL = null;
+
 
 }

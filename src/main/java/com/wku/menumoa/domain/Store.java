@@ -34,6 +34,6 @@ public class Store extends BaseTime{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Menu> menus = new ArrayList<>();
 }

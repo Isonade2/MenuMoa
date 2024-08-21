@@ -1,6 +1,7 @@
 package com.wku.menumoa.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class User extends BaseTime implements UserDetails{
     private String category;
     private String status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
 

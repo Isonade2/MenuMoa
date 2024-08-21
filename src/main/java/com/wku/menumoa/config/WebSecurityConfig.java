@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                             .loginPage("/login")
                             .usernameParameter("email")
                             .passwordParameter("password")
-                            .defaultSuccessUrl("/user")
+                            .defaultSuccessUrl("/user/test")
                             .failureUrl("/user/loginfail")
                             .failureForwardUrl("/user/loginfail")
 

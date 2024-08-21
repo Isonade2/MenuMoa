@@ -1,12 +1,15 @@
 package com.wku.menumoa.controller;
 
 
+import com.wku.menumoa.domain.Store;
 import com.wku.menumoa.domain.User;
 import com.wku.menumoa.dto.ResponseDTO;
 import com.wku.menumoa.dto.ResponseEntityBuilder;
+import com.wku.menumoa.dto.store.StoreDTO;
 import com.wku.menumoa.dto.user.UserRegisterRequest;
 import com.wku.menumoa.dto.user.UserRegisterResponse;
 import com.wku.menumoa.service.EmailService;
+import com.wku.menumoa.service.StoreService;
 import com.wku.menumoa.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -18,9 +21,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -29,6 +34,7 @@ import java.util.HashMap;
 public class UserController {
     private final UserService userService;
     private final EmailService emailService;
+    private final StoreService storeService;
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseDTO<UserRegisterResponse>> signup(@Valid @RequestBody UserRegisterRequest userRegisterRequest){
@@ -81,6 +87,14 @@ public class UserController {
 //            return ResponseEntityBuilder.build("가입되지 않은 이메일입니다.", HttpStatus.OK, null);
 //        }
 //    }
+
+    @GetMapping("/store")
+    public ResponseEntity<?> getStores(@AuthenticationPrincipal User user){
+
+        List<StoreDTO> storeDTOS = storeService.getStoresByUserId(user);
+
+        return ResponseEntityBuilder.build("가게 조회 성공", HttpStatus.OK, storeDTOS);
+    }
 
 
     @GetMapping("/test")
