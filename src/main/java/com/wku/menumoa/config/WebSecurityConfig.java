@@ -33,12 +33,19 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
             http
                     .authorizeHttpRequests(authorize -> authorize
+                            //로그인 필요없는 엔드포인트
+                            .requestMatchers("/login").permitAll()
+                            .requestMatchers("/user/signup", "/user/activation",
+                                    "/user/checkEmail","/user/loginfail").permitAll()
                             //로그인 필요한 엔드포인트
+                            //그외엔 모두 권한이 필요하다
+                            .requestMatchers("/user/*").authenticated()
+                            .requestMatchers("/store").authenticated()
                             .requestMatchers("/menu").authenticated()
 
-                            //로그인 필요없는 엔드포인트
-                            .requestMatchers("/login","/user/*").permitAll()
-                            .anyRequest().permitAll()
+
+
+
                 )
                     .formLogin(form -> form
                             .loginPage("/login")
